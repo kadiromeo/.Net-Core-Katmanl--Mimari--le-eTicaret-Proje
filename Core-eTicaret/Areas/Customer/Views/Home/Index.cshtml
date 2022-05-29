@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Models.Product>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="row">
+
+ @await Component.InvokeAsync("CategoryList")
+  @await Component.InvokeAsync("ProductList",new {categoryId=ViewBag.categoryId})
+
+</div>

@@ -1,0 +1,126 @@
+﻿@model Models.ViewModels.ProductVM
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = "Ürün Ekle";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row p-3 border">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (Model.Product.Id != 0)
+        {
+            title = "Ürün Düzenle";
+                                <input  type="hidden" asp-for="Product.Id"/>
+        }
+
+        <div class="col-12 border-bottom">
+            <h2 class="text-primary">@title</h2>
+        </div>
+            @if (Model.Product.Id!=0)
+            {
+                <div class="col-md-3 mt-5">
+                    <img src="@Model.Product.ImageUrl" width="250" height="250">
+                </div>
+            }
+        <div class="col-8 pt-4">
+
+            <div class="form-group row">
+
+                <div class="col-4">
+                  Başlık
+                </div>
+                <div class="col-8">
+                  <input asp-for="Product.Title" class="form-control"/>
+                  <span asp-validation-for="Product.Title" class="text-danger"></span>  
+              </div>
+            </div>
+ 
+            <div class="form-group row">
+                <div class="col-4">
+                  Adet
+                </div>
+                <div class="col-8">
+                  <input asp-for="Product.Quantity" class="form-control"/>
+                  <span asp-validation-for="Product.Quantity" class="text-danger"></span>  
+              </div>
+            </div>
+       
+                 <div class="form-group row">
+                <div class="col-4">
+                  Açıklama
+                </div>
+                <div class="col-8">
+                  <input asp-for="Product.Description" class="form-control"/>
+                  <span asp-validation-for="Product.Description" class="text-danger"></span>  
+              </div>
+            </div>
+                       <div class="form-group row">
+                <div class="col-4">
+                  Kategori
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(m=>m.Product.CategoryId,Model.CategoryList,"-- Kategori Seç --",new {@class="form-control"})
+                  <span asp-validation-for="Product.CategoryId" class="text-danger"></span>  
+              </div>
+            </div>
+                     <div class="form-group row">
+                <div class="col-4">
+                  Fotoğraf
+                </div>
+                <div class="col-8">
+                  <input  type="file" name="files" id="uploadBox" multiple class="form-control"/>
+                  <span asp-validation-for="Product.CategoryId" class="text-danger"></span>  
+              </div>
+            </div>
+                 <div class="form-group row">
+                <div class="col-4">
+                  Fiyat
+                </div>
+                <div class="col-8">
+                  <input asp-for="Product.Price" class="form-control"/>
+                  <span asp-validation-for="Product.Price" class="text-danger"></span>  
+              </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-8 offset-4">
+                    @if (Model.Product.Id != 0)
+                            {
+                          <partial name="_EditAndBack" model="Model.Product.Id"></partial>
+}
+                            else
+{       
+                      <div class="row">
+                         <div class="col-md-6">
+                               <button onclick="return ValidateInput()" class="btn btn-primary" type="submit">Ekle</button>
+                           </div>
+                            <div class="col-md-6">
+                                    <a asp-action="Index" class="btn btn-success" type="submit">Kayıt Listesi</a>
+                            </div>
+                       </div>
+}
+
+                        </div>
+                </div>
+            
+
+       
+
+            </div>
+        </div>
+    </form>
+
+@section Scripts{
+  <partial name="_ValidationScriptsPartial"></partial>
+
+
+<script>
+    function ValidateInput(){
+        if(document.getElementById("uploadBox").value==""){
+            swal("Hata","Resim Seç","hata");
+            return false;
+        }
+        return true;
+    }
+</script>
+}
